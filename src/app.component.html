@@ -1,0 +1,81 @@
+<div class="min-h-screen flex flex-col font-sans">
+  <!-- Navbar -->
+  <header class="bg-white border-b border-slate-200 shadow-sm z-10 no-print sticky top-0">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="bg-slate-900 p-1.5 rounded-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-emerald-400">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+        </div>
+        <h1 class="font-bold text-xl tracking-tight text-slate-900">AI Worklog <span class="text-emerald-600">Pro</span></h1>
+      </div>
+      <div class="hidden md:block text-sm text-slate-500">Gestión de Tiempos & Reporting B2B</div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-grow p-4 md:p-8 overflow-y-auto">
+    <div class="container mx-auto max-w-4xl">
+      
+      <!-- STEP 0: Form -->
+      @if (step() === 0) {
+        <app-doc-form (formSubmit)="onFormSubmit($event)"></app-doc-form>
+      }
+
+      <!-- STEP 1: Loading -->
+      @if (step() === 1) {
+        <div class="flex flex-col items-center justify-center min-h-[50vh] text-center animate-pulse">
+          <div class="w-16 h-16 border-4 border-emerald-100 border-t-emerald-600 rounded-full animate-spin mb-8"></div>
+          <h2 class="text-2xl font-bold text-slate-800 mb-2">Redactando Justificación...</h2>
+          <p class="text-slate-500 max-w-md">Nuestro consultor IA está convirtiendo tus notas en un reporte profesional corporativo.</p>
+          <div class="mt-8 grid gap-3 text-sm text-slate-400 text-left bg-white p-6 rounded-lg shadow-sm border border-slate-100">
+             <div class="flex items-center gap-2">
+               <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+               <span>Eliminando lenguaje informal...</span>
+             </div>
+             <div class="flex items-center gap-2">
+               <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+               <span>Añadiendo terminología técnica...</span>
+             </div>
+             <div class="flex items-center gap-2">
+               <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+               <span>Formateando para auditoría...</span>
+             </div>
+          </div>
+        </div>
+      }
+
+      <!-- STEP 2: Viewer -->
+      @if (step() === 2) {
+        <app-doc-viewer 
+          [content]="generatedContent()"
+          [title]="currentClient()"
+          [inputDate]="currentDate()">
+        </app-doc-viewer>
+      }
+
+      <!-- STEP 3: Error -->
+      @if (step() === 3) {
+        <div class="bg-red-50 border border-red-200 rounded-xl p-8 text-center max-w-lg mx-auto mt-10">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-red-500 mx-auto mb-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+          </svg>
+          <h3 class="text-xl font-bold text-red-700 mb-2">Error de Generación</h3>
+          <p class="text-red-600 mb-6">{{ errorMsg() }}</p>
+          <button (click)="reset()" class="bg-white border border-red-300 text-red-600 hover:bg-red-50 font-semibold py-2 px-6 rounded-lg transition">
+            Intentar de nuevo
+          </button>
+        </div>
+      }
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-6 no-print mt-auto">
+    <div class="container mx-auto px-4 text-center text-slate-400 text-sm">
+      &copy; {{ 2024 }} AI Worklog Pro. Herramienta de productividad profesional.
+    </div>
+  </footer>
+</div>
